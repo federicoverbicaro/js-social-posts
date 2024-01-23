@@ -61,9 +61,12 @@ const posts = [
 
 // ciclo per creare i numeri di post 
 
-for(let i = 0; i < posts.length; i++){
+for (let i = 0; i < posts.length; i++) {
+
+const post = posts[i]
 
     const htmlPost = `
+    <div id="container" class="posts-list">
 
     <div id="socialPost" class="post">
 
@@ -72,23 +75,22 @@ for(let i = 0; i < posts.length; i++){
         <div class="post-meta">
 
             <div class="post-meta__icon">
-                <img class="profile-pic" src="https://unsplash.it/300/300?image=15" alt="Phil Mangione">
+                <img class="profile-pic" src="${post.author.image || 'default-image.jpg'}" alt="${post.author.name}" alt="immagine profilo">
             </div>
 
             <div class="post-meta__data">
-                <div class="post-meta__author">Phil Mangione</div>
-                <div class="post-meta__time">4 mesi fa</div>
+                <div class="post-meta__author">${post.author.name}</div>
+                <div class="post-meta__time">${post.created}</div>
             </div>
 
         </div>
 
     </div>
 
-    <div class="post__text">Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima
-        iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.</div>
+    <div class="post__text">${post.content}</div>
 
     <div class="post__image">
-        <img src="https://unsplash.it/600/300?image=171" alt="">
+        <img src="${post.media}" alt="">
     </div>
 
     <div class="post__footer">
@@ -97,7 +99,7 @@ for(let i = 0; i < posts.length; i++){
 
             <div class="likes__cta">
 
-                <a class="like-button  js-like-button" href="#" data-postid="1">
+                <a class="like-button  js-like-button" href="#" data-postid="${post.id}">
                     <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                     <span class="like-button__label">Mi Piace</span>
                 </a>
@@ -105,18 +107,20 @@ for(let i = 0; i < posts.length; i++){
             </div>
 
             <div class="likes__counter">
-                Piace a <b id="like-counter-1" class="js-likes-counter">80</b> persone
+                Piace a <b id="like-counter-${post.id}" class="js-likes-counter">${post.likes}</b> persone
             </div>
 
         </div>
 
     </div>
 
+</div>
 </div>`
-
 document.body.innerHTML += htmlPost
-
-
 }
+   
+
+
+
 
 
