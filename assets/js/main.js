@@ -131,22 +131,44 @@ for (let i = 0; i < posts.length; i++) {
 }
 
 
-// creazione del tasto mi piace che cambia colore 
+// creazione del tasto mi piace che cambia colore e incremento e decremento del numero di mi piace con salvataggio di un secondo array degli id dei post 
 
-const tastiMiPiace = document.querySelectorAll(".like-button.js-like-button")
+const tastiMiPiace = document.querySelectorAll(".like-button.js-like-button");
+const likesCounters = document.querySelectorAll(".js-likes-counter");
+let miPiaceTotali = 0;
+let postLikedIds = [];
 
-tastiMiPiace.forEach(tasto => {
+tastiMiPiace.forEach((tasto, index) => {
     tasto.addEventListener('click', function(event) {
 
         event.preventDefault()
 
-        const coloreCorrente = getComputedStyle(tasto).color;
+        const isLiked = tasto.classList.contains('like-button--liked');
 
-        if (coloreCorrente === 'rgb(45, 171, 111)') {
-            tasto.style.color = "#000000";  
+        let numeroAttuale = parseInt(likesCounters[index].textContent)
+
+        if (isLiked) {
+            tasto.classList.remove('like-button--liked');
+            numeroAttuale--;
+
+            const postId = parseInt(tasto.getAttribute('data-postid'));
+            const postIndex = postLikedIds.indexOf(postId);
+
+            if (postIndex !== -1) {
+                postLikedIds.splice(postIndex, 1);
+            }
         } else {
-            tasto.style.color = "#2dab6f";  
+            tasto.classList.add('like-button--liked');
+            numeroAttuale++;
+
+            const postId = parseInt(tasto.getAttribute('data-postid'));
+            postLikedIds.push(postId);
         }
+
+       
+        likesCounters[index].textContent = numeroAttuale;
+        console.log("ID dei post con Mi Piace:", postLikedIds)
+        
     });
 });
 
